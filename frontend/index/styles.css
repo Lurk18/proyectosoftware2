@@ -1,0 +1,126 @@
+/* Debug */
+.show-all-borders * {
+  border: 2px dashed rgba(0, 0, 0, 0.5);
+}
+
+/* CSS selectable items*/
+.selectable:hover {
+  outline: 2px solid red;
+  /* highlight simple */
+}
+
+.selectable.selected {
+  background-color: #f0f0f0;
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+  text-decoration: line-through;
+  color: gray;
+  font-style: italic;
+  user-select: none;
+  transition: all 0.3s ease;
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* made by Ratoncyt0 */
+.raty-div-center {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  max-height: none;
+  height: auto;
+  justify-content: center;
+}
+
+.raty-div-scrollable {
+  box-sizing: border-box;
+  display: flex;
+  min-height: 10vh;
+  height: auto;
+  max-height: 70vh;
+  min-width: 40vh;
+  width: auto;
+  justify-content: center;
+  overflow: auto;
+  border: 2px solid #6d6d6d;
+  padding: 10px;
+}
+
+.raty-h1 {
+  text-align: center;
+  font-size: larger;
+}
+
+.raty-box {
+  display: inline-block !important;
+  margin: 1% !important;
+  width: 30% !important;
+  height: 70px;
+}
+
+/* CSS Nutritional facts table */
+.margenNF {
+  font-family: Arial, sans-serif;
+  max-width: 300px;
+  margin: 40px auto;
+  padding: 20px;
+  border: 8px solid black;
+  background: white;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0 0 10px 0;
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 10px solid black;
+  padding-bottom: 4px;
+}
+
+.serving {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.line {
+  border-top: 1px solid black;
+  margin: 4px 0;
+}
+
+.thick-line {
+  border-top: 6px solid black;
+  margin: 6px 0;
+}
+
+.nutrient {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.indented {
+  padding-left: 15px;
+}
+
+.daily-value {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.footnote {
+  font-size: 10px;
+  margin-top: 10px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+/* a */
+
+/* b */

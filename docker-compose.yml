@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "81:80"
+      - "443:443"
+    environment:
+      - BACKEND_DIR=${BACKEND_DIR}
+    volumes:
+      - ./frontend/index:/usr/share/nginx/html
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGODB_URI=mongodb://database:27017/fda
+    depends_on:
+      - database
+    restart: unless-stopped
+
+  database:
+    image: mongo:5.0
+    stop_grace_period: 10s
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
