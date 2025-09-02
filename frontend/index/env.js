@@ -1,1 +1,1 @@
-window.env = { BACKEND_DIR: '45.173.12.98:3000' };
+window.env = { BACKEND_DIR: '127.0.0.1:3000' };
