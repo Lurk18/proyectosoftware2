@@ -19,19 +19,22 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://database:27017/fda
+      - DATABASE_URL=postgres://miusuario:mipassword@database:5432/mibasededatos
     depends_on:
       - database
     restart: unless-stopped
 
   database:
-    image: mongo:5.0
-    stop_grace_period: 10s
+    image: postgres:16-alpine
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: miusuario
+      POSTGRES_PASSWORD: mipassword
+      POSTGRES_DB: mibasededatos
     volumes:
-      - mongodb_data:/data/db
+      - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
 volumes:
-  mongodb_data:
+  postgres_data:
