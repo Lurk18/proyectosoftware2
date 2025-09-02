@@ -12,7 +12,7 @@ COPY src ./src
 
 # Variables de entorno
 ENV PORT=3000
-ENV MONGO_URI=mongodb://database:27017/fda
+ENV DATABASE_URL=postgres://miusuario:mipassword@database:5432/mibasededatos
 
 EXPOSE 3000
 

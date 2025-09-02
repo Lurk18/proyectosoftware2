@@ -1,45 +1,38 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const itemRoutes = require('./routes/itemRoutes');
-const ingredientRoutes = require('./routes/ingredientRoutes');
-const mongoID = require("./routes/idRoutes");
+const { Pool } = require('pg');
 
-// Configurar variables de entorno
-dotenv.config();
-
-// Crear instancia de Express
+// Crear una instancia de Express
 const app = express();
+app.use(express.json());
 
-// Middleware
-app.use(cors());
-app.use(express.json()); // Para parsear JSON en requests
+// Configurar conexión a PostgreSQL usando DATABASE_URL del entorno
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
-// Ruta de prueba localhost:3000
+// Probar la conexión
+pool.connect()
+  .then(() => console.log('✅ Conectado a PostgreSQL'))
+  .catch(err => console.error('❌ Error al conectar a PostgreSQL:', err));
+
+// Ruta básica para verificar el servidor
 app.get('/', (req, res) => {
-  res.send('Backend funcionando. Consulta: /api/id/:idmongoDB');
+  res.send('Servidor backend conectado con PostgreSQL 🚀');
 });
 
-// Rutas para la api
-app.use('/api', itemRoutes, ingredientRoutes, mongoID);
+// Ruta ejemplo: obtener usuarios
+app.get('/usuarios', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM usuarios');
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Error al obtener usuarios' });
+  }
+});
 
-// Conexión a MongoDB y arranque del servidor si hay conexion
+// Puerto desde variable de entorno o 3000
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGO_URI;
-
-mongoose.connect(MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-.then(() => {
-  console.log('✅ Conectado a MongoDB');
-  app.listen(PORT, () => {
-    console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-  });
-})
-.catch(err => {
-  console.error('❌ Error al conectar con MongoDB:', err);
+app.listen(PORT, () => {
+  console.log(`✅ Servidor escuchando en http://localhost:${PORT}`);
 });
-
-

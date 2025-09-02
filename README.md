@@ -1,7 +1,7 @@
 # FDA-tabla-nutricional
 * Repo kubernetes para despliegue de web app
 
-Para ejecutar simplemente en el directorio actual
+Para ejecutar solamente en el directorio actual
 ```bash
 docker compose up --build
 ```

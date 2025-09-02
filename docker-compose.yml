@@ -7,7 +7,7 @@ services:
       - "81:80"
       - "443:443"
     environment:
-      - BACKEND_DIR=${"a"}
+      - BACKEND_DIR=${BACKEND_DIR}
     volumes:
       - ./frontend/index:/usr/share/nginx/html
     depends_on:
