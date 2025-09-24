@@ -1,4 +1,4 @@
-# FDA-tabla-nutricional
+# Despliegue del proyecto
 * Repo kubernetes para despliegue de web app
 
 Para ejecutar solamente en el directorio actual
