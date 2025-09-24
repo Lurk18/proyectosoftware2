@@ -9,6 +9,7 @@
   <script>
 
     window.onload = iniciar(); // Inicia elementos pesados del programa cuando termina de carga la pagina : asi evitamos errores de carga
+    alert("hi");
 
   </script>
   <meta charset="UTF-8">
@@ -18,9 +19,12 @@
 
 <body>
 
-  <h1>Gestion de inventarios</h1>
+  <h1>Gestion de inventarios.</h1>
   <p>made by : <i style="font-family: cursive;">Gente que le pone el alma<a href="./test.html">.</a></i></p>
 
+
+  <h2>Ejemplo de acceso a ip backend usando la variable de entorno</h2>
+  <p onclick="alert(window.env.BACKEND_DIR)">Click para ver la ip del backend</p>
 </body>
 
 </html>
