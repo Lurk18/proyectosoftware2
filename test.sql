@@ -6,4 +6,4 @@ VALUES
 
 SELECT * 
 FROM Cliente 
-WHERE customer_name = 'María Gómez';
+WHERE customer_name = 'cliente1';
