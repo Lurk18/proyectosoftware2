@@ -36,5 +36,12 @@ services:
       - ./DBdata:/var/lib/postgresql/data
     restart: unless-stopped
   
+  plan_de_pruebas:
+    build: ./plan_de_pruebas
+    depends_on:
+      - database
+    restart: no
+
+
 volumes:
   postgres_data:
