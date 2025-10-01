@@ -1,8 +1,4 @@
 # Despliegue del proyecto
-* Para cargar sql a la base de datos usar
-```bash
-cat test.sql | docker exec -i proyectosoftware2-database-1 psql -U miusuario -d mibasededatos
-```
 
 # Componiendo el entorno
 
