@@ -1,9 +1,13 @@
+// src/server.js
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config(); // Asegura que las variables de entorno estén disponibles
+require('dotenv').config(); // Asegura que las variables de entorno estén disponibles NO QUITAR.
 const app = express();
 
+// Middlewares
+app.use(cors());
 app.use(express.json());
+
 
 // Rutas
 const testRoutes = require('./routes/test');
@@ -19,6 +23,12 @@ app.get('/', (req, res) => {
 app.use('/test', testRoutes);
 app.use('/clientes', clientesRoutes);
 app.use('/pedidos', pedidosRoutes);
+
+// Manejo de rutas no encontradas en formato json
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Ruta no encontrada' });
+});
+
 
 // Puerto desde variable de entorno o 3000
 const PORT = process.env.PORT || 3000;

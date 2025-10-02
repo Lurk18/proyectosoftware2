@@ -6,34 +6,45 @@ const pool = require('../models/db');
  * Espera recibir un 'customer_id' en el cuerpo de la solicitud.
  */
 const crearPedido = async (req, res) => {
-  // Extraemos el customer_id del cuerpo de la solicitud
   const { customer_id } = req.body;
 
-  // Verificamos que el customer_id fue proporcionado
-  if (!customer_id) {
-    return res.status(400).json({ error: 'El campo customer_id es obligatorio.' });
+  // Validación de entrada
+  if (!customer_id || isNaN(customer_id)) {
+    return res.status(400).json({ error: 'El campo customer_id es obligatorio y debe ser un número válido.' });
   }
 
   try {
-    // La consulta SQL para insertar un nuevo pedido.
-    // Usamos $1 como placeholder para evitar inyección SQL.
-    // 'RETURNING *' nos devuelve el registro completo que se acaba de crear.
-    const query = 'INSERT INTO Orders (customer_id) VALUES ($1) RETURNING *';
-    const values = [customer_id];
+    // Verificar que el cliente existe antes de crear el pedido
+    const clienteExistente = await pool.query(
+      'SELECT customer_id FROM Cliente WHERE customer_id = $1',
+      [customer_id]
+    );
 
-    // Ejecutamos la consulta
-    const result = await pool.query(query, values);
+    if (clienteExistente.rowCount === 0) {
+      return res.status(404).json({ error: `El cliente con ID ${customer_id} no existe.` });
+    }
 
-    // Enviamos el nuevo pedido creado como respuesta con un estado 201 (Created)
-    res.status(201).json(result.rows[0]);
+    // Insertar nuevo pedido en la tabla Orders
+    const insertQuery = `
+      INSERT INTO Orders (customer_id)
+      VALUES ($1)
+      RETURNING order_id, customer_id, order_date, status
+    `;
+    const result = await pool.query(insertQuery, [customer_id]);
+
+    // Devolver la orden recién creada
+    return res.status(201).json({
+      message: 'Pedido creado exitosamente.',
+      pedido: result.rows[0],
+    });
 
   } catch (err) {
     console.error('❌ Error al crear el pedido:', err);
-    // Manejamos posibles errores, como un customer_id que no existe en la tabla Cliente
-    if (err.code === '23503') { // Código de error para violación de llave foránea
-        return res.status(404).json({ error: `El cliente con ID ${customer_id} no existe.` });
-    }
-    res.status(500).json({ error: 'Error interno del servidor al crear el pedido.' });
+
+    return res.status(500).json({
+      error: 'Error interno del servidor al crear el pedido.',
+      detalle: err.message,
+    });
   }
 };
 
