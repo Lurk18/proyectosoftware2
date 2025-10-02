@@ -1,11 +1,12 @@
-// src/routes/pedidos.js
 const express = require('express');
 const router = express.Router();
-const { crearPedido } = require('../controllers/pedidosController');
+const { crearPedido, obtenerPedidosPorCliente } = require('../controllers/pedidosController');
 
-// Definimos la ruta para crear un nuevo pedido.
-// Será una petición POST a la raíz de '/pedidos'.
+// POST /pedidos
 router.post('/', crearPedido);
+
+// ✅ GET /pedidos/cliente/:customer_id
+router.get('/cliente/:customer_id', obtenerPedidosPorCliente);
 
 module.exports = router;
 

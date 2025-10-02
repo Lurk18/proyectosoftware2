@@ -48,6 +48,54 @@ const crearPedido = async (req, res) => {
   }
 };
 
+/**
+ * Obtiene todos los pedidos de un cliente específico.
+ * Recibe el ID del cliente por parámetro en la URL.
+ */
+const obtenerPedidosPorCliente = async (req, res) => {
+  const { customer_id } = req.params;
+
+  // Validación básica
+  if (!customer_id || isNaN(customer_id)) {
+    return res.status(400).json({ error: 'El parámetro customer_id debe ser un número válido.' });
+  }
+
+  try {
+    // Verificar que el cliente existe
+    const clienteExistente = await pool.query(
+      'SELECT customer_id FROM Cliente WHERE customer_id = $1',
+      [customer_id]
+    );
+
+    if (clienteExistente.rowCount === 0) {
+      return res.status(404).json({ error: `El cliente con ID ${customer_id} no existe.` });
+    }
+
+    // Obtener todos los pedidos del cliente
+    const pedidos = await pool.query(
+      `SELECT order_id, order_date, status
+       FROM Orders
+       WHERE customer_id = $1
+       ORDER BY order_date DESC`,
+      [customer_id]
+    );
+
+    res.status(200).json({
+      customer_id: parseInt(customer_id),
+      cantidad: pedidos.rowCount,
+      pedidos: pedidos.rows
+    });
+
+  } catch (err) {
+    console.error('❌ Error al obtener pedidos del cliente:', err);
+    res.status(500).json({
+      error: 'Error interno del servidor al obtener los pedidos.',
+      detalle: err.message
+    });
+  }
+};
+
 module.exports = {
   crearPedido,
+  obtenerPedidosPorCliente
 };
