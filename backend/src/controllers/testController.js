@@ -7,7 +7,7 @@ const getClienteEjemplo = async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error('❌ Error en /test:', err);
-    res.status(500).json({ error: 'Error al obtener cliente ejemplo : posible error en la base de datos' });
+    res.status(500).json({ error: 'Error al obtener cliente ejemplo : posible error en la base de datos o cliente test nunca insertado' });
   }
 };
 
