@@ -18,13 +18,57 @@
 </head>
 
 <body>
+  <header class="navbar">
+    <h1>Inventario de Barras de Granola</h1>
+    <button id="btn-nuevo" class="btn-primary">+ Nueva Barra</button>
+  </header>
 
-  <h1>Gestion de inventarios.</h1>
-  <p>made by : <i style="font-family: cursive;">Gente que le pone el alma<a href="./test.html">.</a></i></p>
+  <main class="dashboard">
+    <section class="card">
+      <h2>Buscar</h2>
+      <input type="text" id="buscar" placeholder="Buscar por sabor o tamaño..." />
+    </section>
 
+    <section class="card">
+      <h2>Listado de Barras</h2>
+      <table id="tabla-productos">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Sabor</th>
+            <th>Tamaño</th>
+            <th>Cantidad</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
 
-  <h2>Ejemplo de acceso a ip backend usando la variable de entorno</h2>
-  <p onclick="alert(window.env.BACKEND_DIR)">Click para ver la ip del backend</p>
+  <!-- Modal para agregar/editar productos -->
+  <div id="modal" class="modal oculto">
+    <div class="modal-content">
+      <h3 id="modal-titulo">Registrar Barra</h3>
+      <form id="form-producto">
+        <input type="hidden" id="producto-id" />
+        <label>Sabor:</label>
+        <input type="text" id="sabor" required />
+
+        <label>Tamaño:</label>
+        <input type="text" id="tamano" required />
+
+        <label>Cantidad:</label>
+        <input type="number" id="cantidad" required />
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Guardar</button>
+          <button type="button" id="btn-cerrar" class="btn-secondary">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
-
 </html>
