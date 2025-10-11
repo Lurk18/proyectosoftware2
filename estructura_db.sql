@@ -93,3 +93,5 @@ CREATE TABLE IntegrationLogs (
     log_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'OK'
 );
+
+
