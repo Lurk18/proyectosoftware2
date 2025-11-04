@@ -102,6 +102,6 @@ VALUES
 ('cliente1', 'cliente@example.com'),
 ('Carlos López', 'carlos.lopez@example.com');
 
-SELECT * 
-FROM Cliente 
-WHERE customer_name = 'cliente1';
+--SELECT * 
+--FROM Cliente 
+--WHERE customer_name = 'cliente1';
