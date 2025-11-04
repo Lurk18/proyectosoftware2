@@ -1,5 +1,13 @@
 # Despliegue del proyecto
-
+* Estructura de la aplicacion web
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐  
+│   Frontend      │     │   Backend       │     │   Base de       │  
+│   (React/Vue)   │ ◄─► │   (Node.js/     │ ◄─► │   Datos         │  
+│   Nginx         │     │   Express)      │     │   MongoDB       │  
+│                 │     │   Nginx         │     │                 │  
+└─────────────────┘     └─────────────────┘     └─────────────────┘  
+```
 # Componiendo el entorno
 
 ## 1. Levantar el entorno
@@ -23,11 +31,6 @@ database system is ready to accept connections
 cat estructura_db.sql | docker exec -i proyectosoftware2-database-1 psql -U miusuario -d mibasededatos
 ```
 
-### 2.2 Cargando la base de datos (Primera vez / Backup)
-Para esto usamos el mismo metodo anterior, enviarle el contenido del archivo sql al contenedor para que postgres lo ejecute.
-```bash
-cat dump-postgres-202509301843.sql | docker exec -i proyectosoftware2-database-1 psql -U miusuario -d mibasededatos
-```
 
 ## 3. Revisar que 
 
@@ -36,12 +39,4 @@ Para saber si el backend se encuentra desplegado y sirviendo
 curl http://localhost:3000/ison
 ```
 
-* Estructura de la aplicacion web
-```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐  
-│   Frontend      │     │   Backend       │     │   Base de       │  
-│   (React/Vue)   │ ◄─► │   (Node.js/     │ ◄─► │   Datos         │  
-│   Nginx         │     │   Express)      │     │   MongoDB       │  
-│                 │     │   Nginx         │     │                 │  
-└─────────────────┘     └─────────────────┘     └─────────────────┘  
-```
+
