@@ -1,4 +1,3 @@
-// src/controllers/pedidosController.js
 const pool = require('../models/db');
 
 /**
@@ -95,7 +94,64 @@ const obtenerPedidosPorCliente = async (req, res) => {
   }
 };
 
+// ==========================================
+// ==         NUEVA FUNCIONALIDAD          ==
+// ==========================================
+
+/**
+ * Actualiza el estado de un pedido específico.
+ * Recibe el ID del pedido por parámetro en la URL.
+ * Espera recibir un 'status' en el cuerpo de la solicitud.
+ */
+const actualizarEstadoPedido = async (req, res) => {
+  const { order_id } = req.params;
+  const { status } = req.body;
+
+  // Validaciones
+  if (!order_id || isNaN(order_id)) {
+    return res.status(400).json({ error: 'El parámetro order_id debe ser un número válido.' });
+  }
+  if (!status || typeof status !== 'string' || status.trim() === '') {
+    return res.status(400).json({ error: 'El campo "status" es obligatorio en el body y debe ser un texto no vacío.' });
+  }
+
+  try {
+    // 1. Actualizar el estado del pedido en la BD
+    // Usamos RETURNING para que la consulta nos devuelva el registro actualizado
+    const updateQuery = `
+      UPDATE Orders
+      SET status = $1
+      WHERE order_id = $2
+      RETURNING order_id, customer_id, order_date, status
+    `;
+    
+    const result = await pool.query(updateQuery, [status.trim(), order_id]);
+
+    // 2. Verificar si la actualización fue exitosa
+    // Si rowCount es 0, significa que no se encontró un pedido con ese order_id
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: `El pedido con ID ${order_id} no existe.` });
+    }
+
+    // 3. Devolver el pedido actualizado
+    return res.status(200).json({
+      message: 'Estado del pedido actualizado exitosamente.',
+      pedido: result.rows[0],
+    });
+
+  } catch (err) {
+    console.error(`❌ Error al actualizar el pedido ${order_id}:`, err);
+    return res.status(500).json({
+      error: 'Error interno del servidor al actualizar el pedido.',
+      detalle: err.message,
+    });
+  }
+};
+
+
+// Exportamos todas las funciones, incluyendo la nueva
 module.exports = {
   crearPedido,
-  obtenerPedidosPorCliente
+  obtenerPedidosPorCliente,
+  actualizarEstadoPedido // <-- Exportamos la nueva función
 };
