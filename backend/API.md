@@ -98,7 +98,7 @@ curl -X GET http://localhost:3000/pedidos/cliente/1
 
 Ejemplo de uso CURL
 ```bash
-# Obtener los detalles del pedido con ID 123
+
 curl -X GET http://localhost:3000/pedidos/123
 ```
 ## 4. Actualizar Estado de un Pedido
@@ -150,5 +150,19 @@ Ejemplo de uso CURL
 ```bash
 # Cancelar (eliminar) el pedido con ID 123
 curl -X DELETE http://localhost:3000/pedidos/123
+```
+
+# 6. Presentar informe consolidado
+
+* **Endpoint**: GET /informes/inventario
+
+* **Descripción**: Cancela o elimina un pedido. En un sistema real, esto usualmente cambia el estado a 'Cancelado' (soft delete) en lugar de borrar el registro.
+
+* Respuesta exitosa (200):
+
+
+Ejemplo de uso Curl
+```bash
+curl -X GET http://localhost:3000/informes/inventario
 ```
 
