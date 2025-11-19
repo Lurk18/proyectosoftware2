@@ -98,9 +98,9 @@ CREATE TABLE IntegrationLogs (
 -- Test DATA
 INSERT INTO Cliente (customer_name, contact_info) 
 VALUES 
-('Juan Pérez', 'juan.perez@example.com'),
-('cliente1', 'cliente@example.com'),
-('Carlos López', 'carlos.lopez@example.com');
+('cliente1', 'cli@example.com'),
+('cliente2', 'cli2@example.com'),
+('cliente 3', 'cli_3@example.com');
 
 --SELECT * 
 --FROM Cliente 

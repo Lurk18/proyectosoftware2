@@ -69,6 +69,50 @@ const getInformeInventario = async (req, res) => {
   }
 };
 
+/**
+ * Obtiene el producto más vendido por cantidad total (sumatoria de quantities en OrderDetails).
+ * Devuelve un objeto con el item_id, nombre del producto y total_vendido.
+ */
+const getProductoMasVendido = async (req, res) => {
+  try {
+    const query = `
+      SELECT
+        od.item_id,
+        i.name AS producto_nombre,
+        SUM(od.quantity) AS total_vendido
+      FROM OrderDetails od
+      JOIN Item i ON od.item_id = i.item_id
+      GROUP BY od.item_id, i.name
+      ORDER BY SUM(od.quantity) DESC
+      LIMIT 1;
+    `;
+
+    const result = await pool.query(query);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ message: 'No hay ventas registradas todavía.' });
+    }
+
+    const row = result.rows[0];
+
+    res.status(200).json({
+      producto_mas_vendido: {
+        item_id: parseInt(row.item_id, 10),
+        nombre: row.producto_nombre,
+        total_vendido: parseInt(row.total_vendido, 10)
+      }
+    });
+
+  } catch (err) {
+    console.error('❌ Error al obtener producto más vendido:', err);
+    res.status(500).json({
+      error: 'Error interno del servidor al obtener el producto más vendido.',
+      detalle: err.message
+    });
+  }
+};
+
 module.exports = {
-  getInformeInventario
+  getInformeInventario,
+  getProductoMasVendido
 };

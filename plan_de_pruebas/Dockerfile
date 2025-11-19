@@ -13,4 +13,4 @@ COPY ./process.py .
 # Variable de entorno para MongoDB
 ENV MONGODB_URI=mongodb://database:27017/
 
-CMD ["bash", "-c", "python process.py && echo 'Carga de base de datos desde csv terminada'"]
+CMD ["bash", "-c", "python process.py && echo 'Plan de pruebas completado.'"]

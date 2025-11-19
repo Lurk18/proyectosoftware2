@@ -1,7 +1,7 @@
 // src/routes/informe.js
 const express = require('express');
 const router = express.Router();
-const { getInformeInventario } = require('../controllers/informeController');
+const { getInformeInventario, getProductoMasVendido } = require('../controllers/informeController');
 
 /**
  * @route GET /inventario
@@ -9,5 +9,12 @@ const { getInformeInventario } = require('../controllers/informeController');
  * @access public
  */
 router.get('/inventario', getInformeInventario);
+
+/**
+ * @route GET /informes/producto-mas-vendido
+ * @desc Devuelve el producto más vendido (por cantidad total)
+ * @access public
+ */
+router.get('/producto-mas-vendido', getProductoMasVendido);
 
 module.exports = router;
