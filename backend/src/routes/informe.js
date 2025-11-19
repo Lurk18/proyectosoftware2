@@ -1,7 +1,7 @@
 // src/routes/informe.js
 const express = require('express');
 const router = express.Router();
-const { getInformeInventario } = require('../controllers/InformeController');
+const { getInformeInventario } = require('../controllers/informeController');
 
 /**
  * @route GET /inventario

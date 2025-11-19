@@ -94,9 +94,83 @@ const obtenerPedidosPorCliente = async (req, res) => {
   }
 };
 
-// ==========================================
-// ==         NUEVA FUNCIONALIDAD          ==
-// ==========================================
+/**
+ * Obtiene un pedido por su ID.
+ * Recibe el ID del pedido por parámetro en la URL.
+ */
+
+const obtenerPedidoPorId = async (req, res) => {
+  const { order_id } = req.params;
+
+  // Validación básica
+  if (!order_id || isNaN(order_id)) {
+    return res.status(400).json({ error: 'El parámetro order_id debe ser un número válido.' });
+  }
+
+  try {
+    // Obtener el pedido por su ID
+    const pedido = await pool.query(
+      `SELECT order_id, customer_id, order_date, status
+       FROM Orders
+       WHERE order_id = $1`,
+      [order_id]
+    );
+
+    if (pedido.rowCount === 0) {
+      return res.status(404).json({ error: `El pedido con ID ${order_id} no existe.` });
+    }
+
+    res.status(200).json({
+      pedido: pedido.rows[0]
+    });
+
+  } catch (err) {
+    console.error('❌ Error al obtener el pedido por ID:', err);
+    res.status(500).json({
+      error: 'Error interno del servidor al obtener el pedido.',
+      detalle: err.message
+    });
+  }
+};
+
+/**
+ * Elimina un pedido por su ID.
+ * Recibe el ID del pedido por parámetro en la URL.
+ */
+const eliminarPedido = async (req, res) => {
+  const { order_id } = req.params;
+
+  // Validación básica
+  if (!order_id || isNaN(order_id)) {
+    return res.status(400).json({ error: 'El parámetro order_id debe ser un número válido.' });
+  }
+
+  try {
+    const deleteQuery = `
+      DELETE FROM Orders
+      WHERE order_id = $1
+      RETURNING order_id, customer_id, order_date, status
+    `;
+
+    const result = await pool.query(deleteQuery, [order_id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: `El pedido con ID ${order_id} no existe.` });
+    }
+
+    return res.status(200).json({
+      message: `Pedido con ID ${order_id} eliminado correctamente.`,
+      pedido: result.rows[0]
+    });
+
+  } catch (err) {
+    console.error(`❌ Error al eliminar el pedido ${order_id}:`, err);
+    return res.status(500).json({
+      error: 'Error interno del servidor al eliminar el pedido.',
+      detalle: err.message
+    });
+  }
+};
 
 /**
  * Actualiza el estado de un pedido específico.
@@ -105,14 +179,16 @@ const obtenerPedidosPorCliente = async (req, res) => {
  */
 const actualizarEstadoPedido = async (req, res) => {
   const { order_id } = req.params;
-  const { status } = req.body;
+  // Aceptamos tanto 'status' (inglés) como 'estado' (español) en el body
+  const statusRaw = req.body.status ?? req.body.estado;
+  const status = typeof statusRaw === 'string' ? statusRaw.trim() : statusRaw;
 
   // Validaciones
   if (!order_id || isNaN(order_id)) {
     return res.status(400).json({ error: 'El parámetro order_id debe ser un número válido.' });
   }
-  if (!status || typeof status !== 'string' || status.trim() === '') {
-    return res.status(400).json({ error: 'El campo "status" es obligatorio en el body y debe ser un texto no vacío.' });
+  if (!status || typeof status !== 'string' || status === '') {
+    return res.status(400).json({ error: 'El campo "status" (o "estado") es obligatorio en el body y debe ser un texto no vacío.' });
   }
 
   try {
@@ -153,5 +229,7 @@ const actualizarEstadoPedido = async (req, res) => {
 module.exports = {
   crearPedido,
   obtenerPedidosPorCliente,
-  actualizarEstadoPedido // <-- Exportamos la nueva función
+  actualizarEstadoPedido,
+  obtenerPedidoPorId,
+  eliminarPedido
 };

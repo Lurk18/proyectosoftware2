@@ -13,6 +13,7 @@ app.use(express.json());
 const testRoutes = require('./routes/test');
 const clientesRoutes = require('./routes/clientes');
 const pedidosRoutes = require('./routes/pedidos');
+const informesRoutes = require('./routes/informe');
 
 // Ruta básica
 app.get('/', (req, res) => {
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/test', testRoutes);
 app.use('/clientes', clientesRoutes);
 app.use('/pedidos', pedidosRoutes);
+app.use('/informes', informesRoutes);
 
 // Manejo de rutas no encontradas en formato json
 app.use((req, res, next) => {

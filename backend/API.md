@@ -11,7 +11,7 @@ Esta guía documenta los endpoints de la API de Pedidos. Todos los ejemplos de `
 - **Cuerpo de la solicitud (JSON):**
   ```json
   {
-      "clienteId": 1,
+      "customer_id": 1,
       "productos": [
           { "productoId": 10, "cantidad": 2 },
           { "productoId": 5, "cantidad": 1 }
@@ -32,7 +32,7 @@ Ejemplo de uso con CURL
 curl -X POST http://localhost:3000/pedidos \
      -H "Content-Type: application/json" \
      -d '{
-         "clienteId": 1,
+         "customer_id": 1,
          "productos": [
              { "productoId": 10, "cantidad": 2 },
              { "productoId": 5, "cantidad": 1 }
@@ -42,7 +42,7 @@ curl -X POST http://localhost:3000/pedidos \
 
 ## 2. Consultar Pedidos de un Cliente
 
-* **Endpoint**: GET /pedidos/cliente/{clienteId}
+* **Endpoint**: GET /pedidos/cliente/{customer_id}
 
 * **Descripción**: Obtiene todos los pedidos (solo la cabecera o un resumen) de un cliente específico.
 
@@ -72,7 +72,7 @@ curl -X GET http://localhost:3000/pedidos/cliente/1
 
 ## 3. Obtener Detalles de un Pedido Específico
 
-* **Endpoint**: GET /pedidos/{pedidoId}
+* **Endpoint**: GET /orden/{pedidoId}
 
 * **Descripción**: Obtiene todos los detalles de un único pedido, incluyendo la lista de productos.
 
@@ -81,7 +81,7 @@ curl -X GET http://localhost:3000/pedidos/cliente/1
 ```json
 {
     "pedidoId": 123,
-    "clienteId": 1,
+    "customer_id": 1,
     "fecha": "2024-06-10",
     "estado": "Pendiente",
     "productos": [
@@ -99,7 +99,7 @@ curl -X GET http://localhost:3000/pedidos/cliente/1
 Ejemplo de uso CURL
 ```bash
 
-curl -X GET http://localhost:3000/pedidos/123
+curl -X GET http://localhost:3000/pedidos/orden/1
 ```
 ## 4. Actualizar Estado de un Pedido
 
@@ -126,7 +126,7 @@ curl -X GET http://localhost:3000/pedidos/123
 Ejemplo de uso CURL
 ```bash
 # Actualizar el estado del pedido 123 a "Enviado"
-curl -X PATCH http://localhost:3000/pedidos/123 \
+curl -X PATCH http://localhost:3000/pedidos/update/1 \
      -H "Content-Type: application/json" \
      -d '{
          "estado": "Enviado"
@@ -149,7 +149,7 @@ curl -X PATCH http://localhost:3000/pedidos/123 \
 Ejemplo de uso CURL
 ```bash
 # Cancelar (eliminar) el pedido con ID 123
-curl -X DELETE http://localhost:3000/pedidos/123
+curl -i -X DELETE http://localhost:3000/pedidos/remove/1
 ```
 
 # 6. Presentar informe consolidado

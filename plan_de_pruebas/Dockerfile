@@ -10,8 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar scripts y datos
 COPY ./process.py .
 
-COPY ./data/fda_nutrition_data.csv ./data/fda_nutrition_data.csv
-
 # Variable de entorno para MongoDB
 ENV MONGODB_URI=mongodb://database:27017/
 

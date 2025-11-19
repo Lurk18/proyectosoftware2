@@ -1,10 +1,14 @@
+// src/routes/pedidos.js
+
 const express = require('express');
 const router = express.Router();
-// 1. Importamos la nueva función del controlador
+
 const { 
   crearPedido, 
   obtenerPedidosPorCliente, 
-  actualizarEstadoPedido // <-- Nueva función
+  actualizarEstadoPedido,
+  obtenerPedidoPorId,
+  eliminarPedido
 } = require('../controllers/pedidosController');
 
 // POST /pedidos
@@ -13,9 +17,17 @@ router.post('/', crearPedido);
 // GET /pedidos/cliente/:customer_id
 router.get('/cliente/:customer_id', obtenerPedidosPorCliente);
 
-// 2. Añadimos la nueva ruta PUT para actualizar un pedido por su ID
-// PUT /pedidos/:order_id
-router.put('/:order_id', actualizarEstadoPedido);
+// GET /pedidos/orden/:order_id
+router.get('/orden/:order_id', obtenerPedidoPorId);
+
+// PUT /pedidos/update/:order_id
+router.put('/update/:order_id', actualizarEstadoPedido);
+
+// PATCH /pedidos/update/:order_id (soporta clientes que usan PATCH)
+router.patch('/update/:order_id', actualizarEstadoPedido);
+
+// DELETE /pedidos/remove/:order_id
+router.delete('/remove/:order_id', eliminarPedido);
 
 
 module.exports = router;
