@@ -1,74 +1,48 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="./scripts.js"></script>
-  <script src="./env.js"></script>
-  <link rel="stylesheet" href="./styles.css">
-  <script>
-
-    window.onload = iniciar(); // Inicia elementos pesados del programa cuando termina de carga la pagina : asi evitamos errores de carga
-    alert("hi");
-
-  </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestion de inventarios</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Menú Principal - Sistema de Pedidos</title>
+	<link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <header class="navbar">
-    <h1>Inventario de Barras de Granola</h1>
-    <button id="btn-nuevo" class="btn-primary">+ Nueva Barra</button>
-  </header>
+	<h1>Sistema de Pedidos</h1>
+	<div id="menu-container"></div>
+	<hr>
+	<div id="view-container"></div>
+	<script src="env.js"></script>
+	<script src="scripts.js"></script>
+	<script>
+		// Carga el menú
+		fetch('menu.html')
+			.then(r => r.text())
+			.then(html => {
+				document.getElementById('menu-container').innerHTML = html;
+			});
 
-  <main class="dashboard">
-    <section class="card">
-      <h2>Buscar</h2>
-      <input type="text" id="buscar" placeholder="Buscar por sabor o tamaño..." />
-    </section>
+		// SPA: carga la vista seleccionada
+		function loadView(view) {
+			fetch(view + '.html')
+				.then(r => r.text())
+				.then(html => {
+					document.getElementById('view-container').innerHTML = html;
+					if (window.initView && typeof window.initView === 'function') {
+						try { window.initView(view); } catch (err) { console.error('initView error:', err); }
+					}
+				});
+		}
 
-    <section class="card">
-      <h2>Listado de Barras</h2>
-      <table id="tabla-productos">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Sabor</th>
-            <th>Tamaño</th>
-            <th>Cantidad</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </section>
-  </main>
-
-  <!-- Modal para agregar/editar productos -->
-  <div id="modal" class="modal oculto">
-    <div class="modal-content">
-      <h3 id="modal-titulo">Registrar Barra</h3>
-      <form id="form-producto">
-        <input type="hidden" id="producto-id" />
-        <label>Sabor:</label>
-        <input type="text" id="sabor" required />
-
-        <label>Tamaño:</label>
-        <input type="text" id="tamano" required />
-
-        <label>Cantidad:</label>
-        <input type="number" id="cantidad" required />
-
-        <div class="modal-actions">
-          <button type="submit" class="btn-primary">Guardar</button>
-          <button type="button" id="btn-cerrar" class="btn-secondary">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+		// Carga vista por hash al cargar la página
+		window.addEventListener('DOMContentLoaded', () => {
+			const hash = window.location.hash.replace('#', '');
+			if (hash) loadView(hash);
+		});
+		window.addEventListener('hashchange', () => {
+			const hash = window.location.hash.replace('#', '');
+			if (hash) loadView(hash);
+		});
+	</script>
 </body>
 </html>
