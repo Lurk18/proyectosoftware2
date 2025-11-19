@@ -30,6 +30,11 @@ database system is ready to accept connections
 ```bash
 cat estructura_db.sql | docker exec -i proyectosoftware2-database-1 psql -U miusuario -d mibasededatos
 ```
+y para poblar la base de datos de muestras de ejemplo
+```bash
+cat test_data_db.sql | docker exec -i proyectosoftware2-database-1 psql -U miusuario -d mibasededatos
+```
+
 
 
 ## 3. Revisar que 
