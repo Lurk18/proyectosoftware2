@@ -39,9 +39,10 @@ cat test_data_db.sql | docker exec -i proyectosoftware2-database-1 psql -U miusu
 
 ## 3. Revisar que 
 
+### 3.1 El backend tenga la direccion correcta del ./.env
 Para saber si el backend se encuentra desplegado y sirviendo
 ```bash
-curl http://localhost:3000/ison
+curl http://<ipback>/ison
 ```
 
 

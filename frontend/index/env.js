@@ -1,1 +1,1 @@
-window.env = { BACKEND_DIR: '127.0.0.1:3000' };
+window.env = { BACKEND_DIR: 'https://literate-space-broccoli-7v79wv9jg4v92x567-3000.app.github.dev' };
