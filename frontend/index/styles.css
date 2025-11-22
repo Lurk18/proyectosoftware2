@@ -1,0 +1,114 @@
+/* Estilos generales para la SPA de pedidos */
+:root{
+	--bg:#f6f8fb;
+	--card:#ffffff;
+	--primary:#0b6efd;
+	--accent:#0d6efd22;
+	--muted:#6c757d;
+	--success:#198754;
+	--danger:#dc3545;
+	--radius:10px;
+	--max-width:1100px;
+	--gap:18px;
+	--font-sans: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+	margin:0;
+	font-family:var(--font-sans);
+	background:linear-gradient(180deg,var(--bg),#eef4ff);
+	color:#222;
+	-webkit-font-smoothing:antialiased;
+	-moz-osx-font-smoothing:grayscale;
+	padding:24px 12px;
+}
+
+/* Contenedor principal */
+h1{margin:0 0 12px 0;font-size:1.6rem;text-align:center}
+#menu-container{display:flex;justify-content:center;margin-bottom:14px}
+#view-container{
+	margin:0 auto;
+	max-width:var(--max-width);
+	background:transparent;
+	padding:8px;
+}
+
+/* Nav / Menu */
+nav{display:block}
+nav ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+nav li{margin:0}
+nav a{
+	display:inline-block;padding:10px 14px;border-radius:8px;text-decoration:none;color:var(--primary);
+	background:transparent;border:1px solid transparent;font-weight:600;font-size:0.95rem;
+}
+nav a:hover{background:var(--accent)}
+
+/* Formularios */
+form{background:var(--card);padding:18px;border-radius:var(--radius);box-shadow:0 6px 18px rgba(10,30,60,0.06);margin-bottom:14px}
+form label{display:block;margin-bottom:10px;color:#222;font-weight:500}
+form input[type="number"], form input[type="text"], form textarea, form select{
+	width:100%;padding:10px;border-radius:8px;border:1px solid #dfe7f2;background:#fbfdff;font-size:0.95rem
+}
+form textarea{resize:vertical}
+form button{
+	display:inline-block;margin-top:6px;padding:10px 14px;border-radius:8px;border:0;background:var(--primary);color:#fff;font-weight:700;cursor:pointer
+}
+form button:hover{filter:brightness(.95)}
+
+/* Resultados y tarjetas */
+.resultado-card, .card{
+	background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 20px rgba(11,40,90,0.05);margin-top:12px
+}
+.muted{color:var(--muted);font-size:0.9rem}
+
+/* Tablas simples */
+table{width:100%;border-collapse:collapse}
+thead th{background:#f1f6ff;padding:10px;border-bottom:1px solid #e6eefc;text-align:left}
+tbody td{padding:10px;border-bottom:1px solid #f1f5fb}
+
+/* Botones independientes */
+.btn{display:inline-block;padding:8px 12px;border-radius:8px;border:0;background:var(--primary);color:#fff;font-weight:600;cursor:pointer}
+.btn.secondary{background:#6c757d}
+.btn.warn{background:var(--danger)}
+.btn.success{background:var(--success)}
+
+/* Vista del menú lateral/responsive */
+.controls{display:flex;gap:12px;flex-wrap:wrap}
+
+/* Mensajes */
+.alert{padding:10px;border-radius:8px;margin:8px 0}
+.alert.info{background:#e7f0ff;color:#0446b6}
+.alert.error{background:#ffe9ea;color:#8b1d25}
+.alert.success{background:#e6f6ee;color:#0b6a40}
+
+/* Responsive */
+@media (min-width:720px){
+	body{padding:32px}
+	nav ul{justify-content:flex-start}
+	#menu-container{justify-content:flex-start}
+}
+
+@media (min-width:1000px){
+	#view-container{display:grid;grid-template-columns:1fr;gap:var(--gap)}
+}
+
+/* Helpers */
+.small{font-size:0.9rem;color:var(--muted)}
+.pre{white-space:pre-wrap;background:#fbfdff;padding:10px;border-radius:8px;border:1px solid #eef4ff}
+
+/* Resultados específicos (IDs presentes en HTML) */
+#crearPedidoResultado, #consultarPedidosResultado, #detallePedidoResultado, #actualizarEstadoResultado, #eliminarPedidoResultado, #informeInventarioResultado, #productoMasVendidoResultado{
+	min-height:40px
+}
+
+/* Foco accesible */
+:focus{outline:3px solid #dce9ff;outline-offset:2px}
+
+/* Pequeños toques visuales */
+.badge{display:inline-block;padding:6px 8px;border-radius:999px;background:#f1f6ff;color:var(--primary);font-weight:700;font-size:0.85rem}
+
+/* Footer pequeño dentro de las vistas */
+.view-footer{margin-top:12px;font-size:0.9rem;color:var(--muted)}
+
